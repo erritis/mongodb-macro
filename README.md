@@ -1,4 +1,15 @@
-# mongodb-macro
+[![crates.io][crates-badge]][crates-url]
+[![documentation][docs-badge]][docs-url]
+[![MIT License][mit-badge]][mit-url]
+
+[crates-badge]: https://img.shields.io/crates/v/mongodb-macro.svg
+[crates-url]: https://crates.io/crates/mongodb-macro
+[docs-badge]: https://docs.rs/mongodb-macro/badge.svg
+[docs-url]: https://docs.rs/mongodb-macro
+[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[mit-url]: LICENSE
+
+mongodb-macro
 
 MongoDB Macro is a crate with macros for quickly creating structures to work with mongodb
 
@@ -28,5 +39,7 @@ async fn main() -> std::io::Result<()> {
     ...
 }
 ```
+
+Current version: 0.1.0
 
 License: MIT
