@@ -3,12 +3,13 @@ name = "mongodb-macro"
 version = "0.1.0"
 edition = "2021"
 description = "MongoDB Macro is a crate with macros for quickly creating structures to work with mongodb"
-keywords = [ "mongodb", "macro", "config", "clap", "opts" ]
-categories = [ "mongodb", "macro" ]
+keywords = [ "mongodb", "macro", "config", "clap" ]
+categories = [ "config", "database", "web-programming" ]
 authors = ["Erritis <serg.shehov@tutanota.com>"]
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/erritis/mongodb-macro"
+documentation = "https://docs.rs/mongodb-macro"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

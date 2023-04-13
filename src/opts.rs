@@ -1,5 +1,3 @@
-
-
 /// Quick and easy creates a new configuration to connect to MongoDB
 /// 
 /// Creating a configuration structure when using one database in a project:
