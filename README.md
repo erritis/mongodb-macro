@@ -9,15 +9,53 @@
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [mit-url]: LICENSE
 
-mongodb-macro
+# mongodb-macro
 
-MongoDB Macro is a crate with macros for quickly creating structures to work with mongodb
+MongoDB Macro is a crate with macros for quickly creating structures when working with mongodb.
+In particular, macros are implemented for quick initialization of structures of the "factory" pattern.
+The purpose of this crate is to reduce the amount of boilerplate code when initializing standard structures.
 
-## Examples
+## installation
+
+Install using cargo:
+
+`cargo install mongodb-macro`
+
+Make sure you also add to the project:
+
+> mongodb = "*"
+>
+> clap = { version = "*", features = ["derive", "env"] }
+
+## Usage
+
+### Macro: Client
 ```rust
 
-use mongodb::{Client, bson::Bson};
-use mongodb_macro::Parser;
+use mongodb::bson::Bson;
+
+// env DB_URL should contain a link to the mongodb url
+mongodb_macro::client!(ClientFactory; ClientFactoryOpts);
+// or with a specified env
+// mongodb_macro::client!(ClientFactory; ClientFactoryOpts; "MONGO_DB_URL");
+
+async fn main() -> std::io::Result<()> {
+
+    let factory = ClientFactory::parse();
+
+    let client = factory.create().await.expect("failed to connect");
+
+    let db = client.database("demo");
+    let collection = db.collection::<Bson>("users");
+
+    ...
+}
+```
+
+### Macro: Config
+```rust
+
+use mongodb::bson::Bson;
 
 mongodb_macro::config!(Opts);
 // equivalent to
@@ -41,6 +79,6 @@ async fn main() -> std::io::Result<()> {
 }
 ```
 
-Current version: 0.1.0
+Current version: 0.2.0
 
 License: MIT

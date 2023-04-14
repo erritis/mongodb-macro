@@ -3,8 +3,6 @@
 /// Creating a configuration structure when using one database in a project:
 /// 
 /// ```
-/// use mongodb_macro::Parser;
-/// 
 /// mongodb_macro::config!(Opts);
 ///
 /// fn main() {
@@ -21,8 +19,6 @@
 /// This sets the prefix to the environment variables.
 /// 
 /// ```
-/// use mongodb_macro::Parser;
-/// 
 /// mongodb_macro::config!(Opts, "MONGO");
 ///
 /// fn main() {
@@ -37,8 +33,6 @@
 /// Creating a configuration structure with explicit fields:
 /// 
 /// ```
-/// use mongodb_macro::Parser;
-/// 
 /// mongodb_macro::config!(Opts; "MONGO_DB_NAME", "MONGO_COLLECTION_NAME","MONGO_DB_URL");
 ///
 /// fn main() {

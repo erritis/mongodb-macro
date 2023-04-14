@@ -9,7 +9,7 @@
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [mit-url]: LICENSE
 
-{{crate}}
+# {{crate}}
 
 {{readme}}
 
