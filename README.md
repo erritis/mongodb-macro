@@ -29,6 +29,29 @@ Make sure you also add to the project:
 
 ## Usage
 
+### Macro: Database
+```rust
+
+use mongodb::bson::Bson;
+
+// env DB_URL should contain a link to the mongodb url
+// and DB_NAME should contain the database name
+mongodb_macro::database!(DbFactory; DbFactoryOpts);
+// or with a specified env
+// mongodb_macro::database!(DbFactory; DbFactoryOpts; ("MONGO_DB_URL", "MONGO_DB_NAME"));
+
+async fn main() -> std::io::Result<()> {
+
+    let factory = DbFactory::parse();
+
+    let db = factory.create().await.expect("failed to connect");
+
+    let collection = db.collection::<Bson>("users");
+
+    ...
+}
+```
+
 ### Macro: Client
 ```rust
 
@@ -79,6 +102,6 @@ async fn main() -> std::io::Result<()> {
 }
 ```
 
-Current version: 0.2.0
+Current version: 0.3.0
 
 License: MIT

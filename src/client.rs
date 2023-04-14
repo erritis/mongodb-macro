@@ -30,7 +30,8 @@ macro_rules! client_config {
     ($opts:ident) => ($crate::client_config!{$opts; "DB_URL"});
 
     ($opts:ident; $db_url:tt) => {
-        use clap;
+        use ::clap::Parser;
+
         #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
         pub struct $opts {
             /// env by default DB_URL
@@ -71,14 +72,14 @@ macro_rules! client_config {
 /// ```
 #[macro_export]
 macro_rules! client {
-    ($client_builder:ident; $opts:ident) => ($crate::client!{$client_builder; $opts; "DB_URL"});
-    ($client_builder:ident; $opts:ident; $db_url:tt) => {
-        use ::clap::Parser;
+    ($client_factory:ident; $opts:ident) => ($crate::client!{$client_factory; $opts; "DB_URL"});
+    ($client_factory:ident; $opts:ident; $db_url:tt) => {
+
         $crate::client_config!($opts; $db_url);
 
-        pub struct $client_builder($opts);
+        pub struct $client_factory($opts);
 
-        impl $client_builder {
+        impl $client_factory {
             fn parse() -> Self {
                 let opts = $opts::parse();
                 Self(opts)
