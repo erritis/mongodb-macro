@@ -86,6 +86,7 @@ macro_rules! database {
 
         $crate::database_config!($opts; ($db_url, $db_name));
 
+        #[derive(Clone, Debug, PartialEq, Eq)]
         pub struct $db_factory($opts);
 
         impl $db_factory {

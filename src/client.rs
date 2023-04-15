@@ -77,6 +77,7 @@ macro_rules! client {
 
         $crate::client_config!($opts; $db_url);
 
+        #[derive(Clone, Debug, PartialEq, Eq)]
         pub struct $client_factory($opts);
 
         impl $client_factory {

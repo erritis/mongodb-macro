@@ -78,6 +78,7 @@ macro_rules! collection {
 
         $crate::collection_config!($opts; ($db_url, $db_name, $collection_name));
 
+        #[derive(Clone, Debug, PartialEq, Eq)]
         pub struct $collection_factory($opts);
 
         impl $collection_factory {
