@@ -1,6 +1,6 @@
 [package]
 name = "mongodb-macro"
-version = "0.3.0"
+version = "1.0.0"
 edition = "2021"
 description = "MongoDB Macro is a crate with macros for quickly creating structures to work with mongodb"
 keywords = [ "mongodb", "macro", "config", "clap" ]

@@ -28,6 +28,27 @@ Make sure you also add to the project:
 > clap = { version = "*", features = ["derive", "env"] }
 
 ## Usage
+### Macro: Collection
+```rust
+
+use mongodb::bson::Bson;
+
+// env DB_URL should contain a link to the mongodb url
+// env DB_NAME should contain the database name
+// env COLLECTION_NAME should contain the collection name
+mongodb_macro::collection!(CollectionFactory; CollectionFactoryOpts);
+// or with a specified env
+// mongodb_macro::collection!(CollectionFactory; CollectionFactoryOpts; ("MONGO_DB_URL", "MONGO_DB_NAME", "MONGO_COLLECTION_NAME"));
+
+async fn main() -> std::io::Result<()> {
+
+    let factory = CollectionFactory::parse();
+
+    let collection = factory.create::<Bson>().await.expect("failed to connect");
+
+    ...
+}
+```
 
 ### Macro: Database
 ```rust
@@ -35,7 +56,7 @@ Make sure you also add to the project:
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
-// and DB_NAME should contain the database name
+// env DB_NAME should contain the database name
 mongodb_macro::database!(DbFactory; DbFactoryOpts);
 // or with a specified env
 // mongodb_macro::database!(DbFactory; DbFactoryOpts; ("MONGO_DB_URL", "MONGO_DB_NAME"));
@@ -102,6 +123,6 @@ async fn main() -> std::io::Result<()> {
 }
 ```
 
-Current version: 0.3.0
+Current version: 1.0.0
 
 License: MIT
