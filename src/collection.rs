@@ -70,6 +70,25 @@ macro_rules! collection_config {
 ///     // let collection = factory.create<Bson>().await.expect("failed to connect");
 /// }
 /// ```
+/// 
+/// Create a mongodb collection factory with nested environment variables into standard environment variables
+/// 
+/// ```
+/// mongodb_macro::collection!(CollectionFactory; CollectionFactoryOpts);
+///
+/// fn main() {
+///     std::env::set_var("MONGODB_HOST", "localhost");
+///     std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
+///     std::env::set_var("DB_NAME", "test");
+///     std::env::set_var("COLLECTION_NAME", "users");
+/// 
+///     let factory = CollectionFactory::parse();
+/// 
+///     // let collection = factory.create<Bson>().await.expect("failed to connect");
+/// 
+///     assert_eq!(factory.config().db_url, "mongodb://root:root@localhost:27017");
+/// }
+/// ```
 #[macro_export]
 macro_rules! collection {
     ($collection_factory:ident; $opts:ident) => ($crate::collection!{$collection_factory; $opts; ("DB_URL", "DB_NAME", "COLLECTION_NAME")});
@@ -83,7 +102,12 @@ macro_rules! collection {
 
         impl $collection_factory {
             fn parse() -> Self {
-                let opts = $opts::parse();
+                let mut opts = $opts::parse();
+
+                opts.db_url = $crate::env_expand(&opts.db_url);
+                opts.db_name = $crate::env_expand(&opts.db_name);
+                opts.collection_name = $crate::env_expand(&opts.collection_name);
+
                 Self(opts)
             }
 

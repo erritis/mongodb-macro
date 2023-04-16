@@ -30,6 +30,9 @@ mongodb_macro::collection!(CollectionFactory; CollectionFactoryOpts);
 
 async fn main() -> std::io::Result<()> {
 
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
+
     let factory = CollectionFactory::parse();
 
     let collection = factory.create::<Bson>().await.expect("failed to connect");
@@ -113,6 +116,8 @@ async fn main() -> std::io::Result<()> {
 */
 #![warn(missing_docs)]
 
+
+mod env;
 /// Macros for creating MongoDB configurations from environment variables
 #[doc(hidden)]
 pub mod opts;
@@ -128,3 +133,5 @@ pub mod database;
 /// Macros for creating MongoDB collection configurations and factories from environment variables
 #[doc(hidden)]
 pub mod collection;
+
+pub use env::env_expand;

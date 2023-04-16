@@ -92,6 +92,10 @@ macro_rules! database {
         impl $db_factory {
             fn parse() -> Self {
                 let opts = $opts::parse();
+
+                opts.db_url = $crate::env_expand(&opts.db_url);
+                opts.db_name = $crate::env_expand(&opts.db_name);
+
                 Self(opts)
             }
 

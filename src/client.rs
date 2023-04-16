@@ -83,6 +83,9 @@ macro_rules! client {
         impl $client_factory {
             fn parse() -> Self {
                 let opts = $opts::parse();
+
+                opts.db_url = $crate::env_expand(&opts.db_url);
+
                 Self(opts)
             }
 

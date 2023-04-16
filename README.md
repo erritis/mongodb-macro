@@ -42,6 +42,9 @@ mongodb_macro::collection!(CollectionFactory; CollectionFactoryOpts);
 
 async fn main() -> std::io::Result<()> {
 
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
+
     let factory = CollectionFactory::parse();
 
     let collection = factory.create::<Bson>().await.expect("failed to connect");
@@ -123,6 +126,6 @@ async fn main() -> std::io::Result<()> {
 }
 ```
 
-Current version: 1.0.1
+Current version: 1.0.2
 
 License: MIT
