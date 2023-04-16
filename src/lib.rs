@@ -19,6 +19,7 @@ Make sure you also add to the project:
 ## Macro: Collection
 ```no_run
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -44,6 +45,7 @@ async fn main() -> std::io::Result<()> {
 ## Macro: Database
 ```no_run
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -67,6 +69,7 @@ async fn main() -> std::io::Result<()> {
 ## Macro: Client
 ```no_run
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -90,6 +93,7 @@ async fn main() -> std::io::Result<()> {
 ## Macro: Config
 ```no_run
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 mongodb_macro::config!(Opts);

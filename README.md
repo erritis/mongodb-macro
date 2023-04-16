@@ -31,6 +31,7 @@ Make sure you also add to the project:
 ### Macro: Collection
 ```rust
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -56,6 +57,7 @@ async fn main() -> std::io::Result<()> {
 ### Macro: Database
 ```rust
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -79,6 +81,7 @@ async fn main() -> std::io::Result<()> {
 ### Macro: Client
 ```rust
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -102,6 +105,7 @@ async fn main() -> std::io::Result<()> {
 ### Macro: Config
 ```rust
 
+use clap::Parser;
 use mongodb::bson::Bson;
 
 mongodb_macro::config!(Opts);
@@ -126,6 +130,6 @@ async fn main() -> std::io::Result<()> {
 }
 ```
 
-Current version: 1.0.2
+Current version: 1.0.3
 
 License: MIT

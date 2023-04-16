@@ -49,7 +49,6 @@ macro_rules! config {
     ($opts:ident, $prefix:tt) => ($crate::config!{$opts, $prefix; ("DB_URL", "DB_NAME", "COLLECTION_NAME")});
 
     ($opts:ident, $prefix:tt; ($db_url:tt, $db_name:tt, $collection_name:tt)) => {
-        use ::clap::Parser;
 
         #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
         pub struct $opts {
@@ -71,7 +70,6 @@ macro_rules! config {
     ($opts:ident) => ($crate::config!{$opts; "DB_URL", "DB_NAME", "COLLECTION_NAME"});
 
     ($opts:ident; $db_url:tt, $db_name:tt, $collection_name:tt) => {
-        use ::clap::Parser;
 
         #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
         pub struct $opts {

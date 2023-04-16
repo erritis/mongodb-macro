@@ -30,7 +30,6 @@ macro_rules! client_config {
     ($opts:ident) => ($crate::client_config!{$opts; "DB_URL"});
 
     ($opts:ident; $db_url:tt) => {
-        use ::clap::Parser;
 
         #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
         pub struct $opts {
