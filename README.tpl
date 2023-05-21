@@ -2,7 +2,7 @@
 [![documentation][docs-badge]][docs-url]
 [![MIT License][mit-badge]][mit-url]
 
-[crates-badge]: https://img.shields.io/crates/v/mongodb-macro.svg
+[crates-badge]: https://img.shields.io/crates/v/mongodb-macro?logo=rust&logoColor=white&style=flat-square
 [crates-url]: https://crates.io/crates/mongodb-macro
 [docs-badge]: https://docs.rs/mongodb-macro/badge.svg
 [docs-url]: https://docs.rs/mongodb-macro
