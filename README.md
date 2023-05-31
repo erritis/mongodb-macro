@@ -24,14 +24,11 @@ Install using cargo:
 Make sure you also add to the project:
 
 > mongodb = "*"
->
-> clap = { version = "*", features = ["derive", "env"] }
 
 ## Usage
 ### Macro: Collection
 ```rust
 
-use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -57,7 +54,6 @@ async fn main() -> std::io::Result<()> {
 ### Macro: Database
 ```rust
 
-use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -67,6 +63,9 @@ mongodb_macro::database!(DbFactory; DbFactoryOpts);
 // mongodb_macro::database!(DbFactory; DbFactoryOpts; ("MONGO_DB_URL", "MONGO_DB_NAME"));
 
 async fn main() -> std::io::Result<()> {
+
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 
     let factory = DbFactory::parse();
 
@@ -81,7 +80,6 @@ async fn main() -> std::io::Result<()> {
 ### Macro: Client
 ```rust
 
-use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -90,6 +88,9 @@ mongodb_macro::client!(ClientFactory; ClientFactoryOpts);
 // mongodb_macro::client!(ClientFactory; ClientFactoryOpts; "MONGO_DB_URL");
 
 async fn main() -> std::io::Result<()> {
+
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 
     let factory = ClientFactory::parse();
 
@@ -105,8 +106,8 @@ async fn main() -> std::io::Result<()> {
 ### Macro: Config
 ```rust
 
-use clap::Parser;
 use mongodb::bson::Bson;
+use mongodb_macro::Parser;
 
 mongodb_macro::config!(Opts);
 // equivalent to
@@ -120,6 +121,9 @@ mongodb_macro::config!(Opts);
 
 async fn main() -> std::io::Result<()> {
 
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
+
     let opts = Opts::parse();
 
     let client = mongodb::Client::with_uri_str(&opts.db_url).await.expect("failed to connect");
@@ -130,6 +134,6 @@ async fn main() -> std::io::Result<()> {
 }
 ```
 
-Current version: 1.0.3
+Current version: 1.0.4
 
 License: MIT

@@ -5,26 +5,34 @@
 /// Create a new configuration structure to initialize the MongoDB database with a standard environment variable
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::database_config!(Opts);
 ///
 /// fn main() {
-///     std::env::set_var("DB_URL", "mongodb://root:root@localhost:27017");
+///     std::env::set_var("MONGODB_HOST", "localhost");
+///     std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 ///     std::env::set_var("DB_NAME", "test");
 /// 
 ///     let opts = Opts::parse();
+/// 
+///     assert_eq!(&opts.db_url, "mongodb://root:root@localhost:27017");
 /// }
 /// ```
 /// 
 /// Create a new configuration structure to initialize the MongoDB database with the specified environment variable
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::database_config!(Opts; ("MONGO_DB_URL", "MONGO_DB_NAME"));
 ///
 /// fn main() {
-///     std::env::set_var("MONGO_DB_URL", "mongodb://root:root@localhost:27017");
+///     std::env::set_var("MONGODB_HOST", "localhost");
+///     std::env::set_var("MONGO_DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 ///     std::env::set_var("MONGO_DB_NAME", "test");
 /// 
 ///     let opts = Opts::parse();
+/// 
+///     assert_eq!(&opts.db_url, "mongodb://root:root@localhost:27017");
 /// }
 /// ```
 #[macro_export]
@@ -33,15 +41,15 @@ macro_rules! database_config {
 
     ($opts:ident; ($db_url:tt, $db_name:tt)) => {
 
-        #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
+        #[derive(Clone, Debug, PartialEq, Eq, $crate::Parser)]
         pub struct $opts {
             /// env by default DB_URL
             #[clap(env = $db_url)]
-            pub db_url: String,
+            pub db_url: $crate::Env,
 
             /// env by default DB_NAME
             #[clap(env = $db_name)]
-            pub db_name: String,
+            pub db_name: $crate::Env,
         }
     };
 }
@@ -54,12 +62,15 @@ macro_rules! database_config {
 /// mongodb_macro::database!(DbFactory; DbFactoryOpts);
 ///
 /// fn main() {
-///     std::env::set_var("DB_URL", "mongodb://root:root@localhost:27017");
+///     std::env::set_var("MONGODB_HOST", "localhost");
+///     std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 ///     std::env::set_var("DB_NAME", "test");
 /// 
 ///     let factory = DbFactory::parse();
 /// 
 ///     // let db = factory.create().await.expect("failed to connect");
+/// 
+///     assert_eq!(&factory.config().db_url, "mongodb://root:root@localhost:27017");
 /// }
 /// ```
 /// 
@@ -69,12 +80,15 @@ macro_rules! database_config {
 /// mongodb_macro::database!(DbFactory; DbFactoryOpts; ("MONGO_DB_URL", "MONGO_DB_NAME"));
 ///
 /// fn main() {
-///     std::env::set_var("MONGO_DB_URL", "mongodb://root:root@localhost:27017");
+///     std::env::set_var("MONGODB_HOST", "localhost");
+///     std::env::set_var("MONGO_DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 ///     std::env::set_var("MONGO_DB_NAME", "test");
 /// 
 ///     let factory = DbFactory::parse();
 ///
 ///     // let db = factory.create().await.expect("failed to connect");
+/// 
+///     assert_eq!(&factory.config().db_url, "mongodb://root:root@localhost:27017");
 /// }
 /// ```
 #[macro_export]
@@ -90,10 +104,9 @@ macro_rules! database {
 
         impl $db_factory {
             fn parse() -> Self {
-                let opts = $opts::parse();
+                use $crate::Parser;
 
-                opts.db_url = $crate::env_expand(&opts.db_url);
-                opts.db_name = $crate::env_expand(&opts.db_name);
+                let opts = $opts::parse();
 
                 Self(opts)
             }

@@ -1,6 +1,6 @@
 [package]
 name = "mongodb-macro"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2021"
 description = "MongoDB Macro is a crate with macros for quickly creating structures to work with mongodb"
 keywords = [ "mongodb", "macro", "config", "clap" ]
@@ -14,8 +14,8 @@ documentation = "https://docs.rs/mongodb-macro"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-envmnt = "0.10.4"
+clap = { version = "^4.3.0", features = ["derive", "env"] }
+nested-env-parser = "1.1.0"
 
 [dev-dependencies]
-clap = { version = "4.2.1", features = ["derive", "env"] }
 mongodb = ">=2"

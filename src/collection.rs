@@ -5,6 +5,7 @@
 /// Create a new configuration structure to initialize the MongoDB collection with a standard environment variable
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::collection_config!(Opts);
 ///
 /// fn main() {
@@ -19,6 +20,7 @@
 /// Create a new configuration structure to initialize the MongoDB collection with the specified environment variable
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::collection_config!(Opts; ("MONGO_DB_URL", "MONGO_DB_NAME", "MONGO_COLLECTION_NAME"));
 ///
 /// fn main() {
@@ -86,7 +88,7 @@ macro_rules! collection_config {
 /// 
 ///     // let collection = factory.create<Bson>().await.expect("failed to connect");
 /// 
-///     assert_eq!(factory.config().db_url, "mongodb://root:root@localhost:27017");
+///     assert_eq!(&factory.config().db_url, "mongodb://root:root@localhost:27017");
 /// }
 /// ```
 #[macro_export]
@@ -102,11 +104,9 @@ macro_rules! collection {
 
         impl $collection_factory {
             fn parse() -> Self {
-                let mut opts = $opts::parse();
-
-                opts.db_url = $crate::env_expand(&opts.db_url);
-                opts.db_name = $crate::env_expand(&opts.db_name);
-                opts.collection_name = $crate::env_expand(&opts.collection_name);
+                use $crate::Parser;
+                
+                let opts = $opts::parse();
 
                 Self(opts)
             }

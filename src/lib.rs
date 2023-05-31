@@ -12,14 +12,11 @@ Install using cargo:
 Make sure you also add to the project:
 
 > mongodb = "*"
->
-> clap = { version = "*", features = ["derive", "env"] }
 
 # Usage
 ## Macro: Collection
 ```no_run
 
-use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -45,7 +42,6 @@ async fn main() -> std::io::Result<()> {
 ## Macro: Database
 ```no_run
 
-use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -55,6 +51,9 @@ mongodb_macro::database!(DbFactory; DbFactoryOpts);
 // mongodb_macro::database!(DbFactory; DbFactoryOpts; ("MONGO_DB_URL", "MONGO_DB_NAME"));
 
 async fn main() -> std::io::Result<()> {
+
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 
     let factory = DbFactory::parse();
 
@@ -69,7 +68,6 @@ async fn main() -> std::io::Result<()> {
 ## Macro: Client
 ```no_run
 
-use clap::Parser;
 use mongodb::bson::Bson;
 
 // env DB_URL should contain a link to the mongodb url
@@ -78,6 +76,9 @@ mongodb_macro::client!(ClientFactory; ClientFactoryOpts);
 // mongodb_macro::client!(ClientFactory; ClientFactoryOpts; "MONGO_DB_URL");
 
 async fn main() -> std::io::Result<()> {
+
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
 
     let factory = ClientFactory::parse();
 
@@ -93,8 +94,8 @@ async fn main() -> std::io::Result<()> {
 ## Macro: Config
 ```no_run
 
-use clap::Parser;
 use mongodb::bson::Bson;
+use mongodb_macro::Parser;
 
 mongodb_macro::config!(Opts);
 // equivalent to
@@ -108,6 +109,9 @@ mongodb_macro::config!(Opts);
 
 async fn main() -> std::io::Result<()> {
 
+    // std::env::set_var("MONGODB_HOST", "localhost");
+    // std::env::set_var("DB_URL", "mongodb://root:root@${MONGODB_HOST}:27017");
+
     let opts = Opts::parse();
 
     let client = mongodb::Client::with_uri_str(&opts.db_url).await.expect("failed to connect");
@@ -120,8 +124,6 @@ async fn main() -> std::io::Result<()> {
 */
 #![warn(missing_docs)]
 
-
-mod env;
 /// Macros for creating MongoDB configurations from environment variables
 #[doc(hidden)]
 pub mod opts;
@@ -138,4 +140,8 @@ pub mod database;
 #[doc(hidden)]
 pub mod collection;
 
-pub use env::env_expand;
+#[doc(hidden)]
+pub use nested_env_parser::Env;
+
+#[doc(hidden)]
+pub use clap::Parser;

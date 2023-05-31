@@ -3,6 +3,7 @@
 /// Creating a configuration structure when using one database in a project:
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::config!(Opts);
 ///
 /// fn main() {
@@ -19,6 +20,7 @@
 /// This sets the prefix to the environment variables.
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::config!(Opts, "MONGO");
 ///
 /// fn main() {
@@ -33,6 +35,7 @@
 /// Creating a configuration structure with explicit fields:
 /// 
 /// ```
+/// use mongodb_macro::Parser;
 /// mongodb_macro::config!(Opts; "MONGO_DB_URL", "MONGO_DB_NAME", "MONGO_COLLECTION_NAME");
 ///
 /// fn main() {
@@ -50,41 +53,41 @@ macro_rules! config {
 
     ($opts:ident, $prefix:tt; ($db_url:tt, $db_name:tt, $collection_name:tt)) => {
 
-        #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
+        #[derive(Clone, Debug, PartialEq, Eq, $crate::Parser)]
         pub struct $opts {
 
             /// env by default DB_URL
             #[clap(env = concat!($prefix, "_", $db_url))]
-            pub db_url: String,
+            pub db_url: nested_env_parser::Env,
 
             /// env by default DB_NAME
             #[clap(env = concat!($prefix, "_", $db_name))]
-            pub db_name: String,
+            pub db_name: nested_env_parser::Env,
 
             /// env by default COLLECTION_NAME
             #[clap(env = concat!($prefix, "_", $collection_name))]
-            pub collection_name: String,
+            pub collection_name: nested_env_parser::Env,
         }
     };
     
     ($opts:ident) => ($crate::config!{$opts; "DB_URL", "DB_NAME", "COLLECTION_NAME"});
 
     ($opts:ident; $db_url:tt, $db_name:tt, $collection_name:tt) => {
-
-        #[derive(Clone, Debug, PartialEq, Eq, ::clap::Parser)]
+        
+        #[derive(Clone, Debug, PartialEq, Eq, $crate::Parser)]
         pub struct $opts {
 
             /// env by default DB_URL
             #[clap(env = $db_url)]
-            pub db_url: String,
+            pub db_url: $crate::Env,
 
             /// env by default DB_NAME
             #[clap(env = $db_name)]
-            pub db_name: String,
+            pub db_name: $crate::Env,
 
             /// env by default COLLECTION_NAME
             #[clap(env = $collection_name)]
-            pub collection_name: String,
+            pub collection_name: $crate::Env,
         }
     };
 }
